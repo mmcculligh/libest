@@ -45,6 +45,7 @@
 #include <sys/poll.h>
 #endif
 #include <openssl/ssl.h>
+
 #include <assert.h>
 #include "est.h"
 #include "est_locl.h"
@@ -1188,7 +1189,7 @@ static int est_io_read_raw (SSL *ssl, unsigned char *buf, int buf_max,
     *read_cnt = 0;
     cur_cnt  = est_ssl_read(ssl, buf, buf_max, sock_read_timeout);
     if (cur_cnt < 0) {
-        EST_LOG_ERR("TLS read error %d",ssl_get_error(ssl,cur_cnt));
+        EST_LOG_ERR("TLS read error %d",SSL_get_error(ssl,cur_cnt));
 	ossl_dump_ssl_errors();
         return (EST_ERR_SSL_READ);
     }
