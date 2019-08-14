@@ -1171,7 +1171,17 @@ static int est_ssl_read (SSL *ssl, unsigned char *buf, int buf_max,
         EST_LOG_ERR("Socket read failure. errno = %d", errno);
         return -1;
     } else {
-        return (SSL_read(ssl, buf, buf_max));
+	rv = SSL_read(ssl, buf, buf_max);
+	if (rv < 0) {
+		if (SSL_get_error(ssl,rv) == SSL_ERROR_WANT_READ) {
+			return est_ssl_read(ssl,buf,buf_max,sock_read_timeout);
+		}
+		else {
+			return rv;
+		}
+	} else {
+        	return rv;
+	}
     }
 }
 
