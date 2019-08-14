@@ -1260,7 +1260,7 @@ static int est_client_build_cacerts_header (EST_CTX *ctx, char *hdr)
 
     snprintf(hdr, EST_HTTP_REQ_TOTAL_LEN, "GET %s%s%s/%s HTTP/1.1\r\n"
             "User-Agent: %s\r\n"
-            "Connection: close\r\n"
+            "Connection: Keep-Alive\r\n"
             "Host: %s:%d\r\n"
             "Accept: */*\r\n",
             EST_PATH_PREFIX,
