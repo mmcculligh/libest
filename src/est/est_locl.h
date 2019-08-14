@@ -83,7 +83,7 @@
 #define EST_HTTP_STAT_423_TXT	    "Locked"
 
 #define EST_HTTP_HDR_MAX            1024 
-#define EST_HTTP_HDR_200            "HTTP/1.1 200 OK"
+#define EST_HTTP_HDR_200            "HTTP/1.1 200"
 #define EST_HTTP_HDR_STAT_200       "Status: 200 OK"
 #define EST_HTTP_HDR_202            "HTTP/1.1 202 " EST_HTTP_STAT_202_TXT
 #define EST_HTTP_HDR_STAT_202       "Status: 202 "  EST_HTTP_STAT_202_TXT
