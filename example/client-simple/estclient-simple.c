@@ -74,7 +74,7 @@ static void show_usage_and_exit (void)
 	"  -p <port#>        TCP port# for enrollment server\n"
 	"  -u                Specify user name for HTTP authentication.\n"
 	"  -h                Specify password for HTTP authentication.\n"
-        "  -a                Optional path segment to be added to the URI.\n"
+	"  -a                Optional path segment to be added to the URI.\n"
 	"  --srp                       Enable TLS-SRP cipher suites.  Use with --srp-user and --srp-password options.\n"
 	"  --srp-user     <string>     Specify the SRP user name.\n"
 	"  --srp-password <string>     Specify the SRP password.\n"
@@ -190,7 +190,13 @@ static EST_CTX * setup_est_context (void)
     /*
      * Specify the EST server address and TCP port#
      */
-    rv = est_client_set_server(ectx, est_server, est_port, est_path_segment);
+    if (strlen(est_path_segment)) {
+	rv = est_client_set_server(ectx, est_server, est_port, est_path_segment);
+    }
+    else {
+	rv = est_client_set_server(ectx, est_server, est_port, NULL);
+    }
+    
     if (rv != EST_ERR_NONE) {
         printf("\nUnable to configure server address.  Aborting!!!\n");
         printf("EST error code %d (%s)\n", rv, EST_ERR_NUM_TO_STR(rv));
