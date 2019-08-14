@@ -26,6 +26,7 @@
 
 #define MAX_SERVER_LEN 32
 #define MAX_FILENAME_LEN 255
+#define MAX_PATH_SEGMENT_LEN 255
 
 #ifdef WIN32
 static CRITICAL_SECTION logger_critical_section;  
@@ -48,8 +49,9 @@ static char est_http_pwd[MAX_PWD_LEN];
 static char est_srp_uid[MAX_UID_LEN];
 static char est_srp_pwd[MAX_PWD_LEN];
 static char est_server[MAX_SERVER_LEN];
+static char est_path_segment[MAX_PATH_SEGMENT_LEN];
 static char est_auth_token[MAX_AUTH_TOKEN_LEN];
-static int est_port;
+static int est_port = 443;
 static int srp = 0;
 static int token_auth_mode = 0;
 
@@ -72,6 +74,7 @@ static void show_usage_and_exit (void)
 	"  -p <port#>        TCP port# for enrollment server\n"
 	"  -u                Specify user name for HTTP authentication.\n"
 	"  -h                Specify password for HTTP authentication.\n"
+    "  -a                Optional path segment to be added to the URI.\n"
 	"  --srp                       Enable TLS-SRP cipher suites.  Use with --srp-user and --srp-password options.\n"
 	"  --srp-user     <string>     Specify the SRP user name.\n"
 	"  --srp-password <string>     Specify the SRP password.\n"
@@ -187,7 +190,7 @@ static EST_CTX * setup_est_context (void)
     /*
      * Specify the EST server address and TCP port#
      */
-    rv = est_client_set_server(ectx, est_server, est_port, NULL);
+    rv = est_client_set_server(ectx, est_server, est_port, est_path_segment);
     if (rv != EST_ERR_NONE) {
         printf("\nUnable to configure server address.  Aborting!!!\n");
         printf("EST error code %d (%s)\n", rv, EST_ERR_NUM_TO_STR(rv));
@@ -222,6 +225,7 @@ int main (int argc, char **argv)
 
     est_http_uid[0] = 0x0;
     est_http_pwd[0] = 0x0;
+    est_path_segment[0] = 0x0;
 
     while ((c = getopt_long(argc, argv, "s:p:u:h:", long_options, &option_index)) != -1) {
         switch (c) {
@@ -248,6 +252,9 @@ int main (int argc, char **argv)
                 break;
             case 's':
 		strncpy(est_server, optarg, MAX_SERVER_LEN);
+                break;
+            case 'a':
+		strncpy(est_path_segment, optarg, MAX_PATH_SEGMENT_LEN);
                 break;
             case 'p':
 		est_port = atoi(optarg);
