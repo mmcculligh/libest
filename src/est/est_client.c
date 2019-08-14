@@ -2630,6 +2630,8 @@ static int est_client_send_cacerts_request (EST_CTX *ctx, SSL *ssl,
     /*
      * Send the request to the server and wait for a response
      */
+    EST_LOG_INFO("CACert Request:\n %s", http_data);
+
     ctx->last_http_status = 0;
     write_size = SSL_write(ssl, http_data, hdr_len);
     if (write_size < 0) {
