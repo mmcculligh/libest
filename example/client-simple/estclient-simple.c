@@ -74,7 +74,7 @@ static void show_usage_and_exit (void)
 	"  -p <port#>        TCP port# for enrollment server\n"
 	"  -u                Specify user name for HTTP authentication.\n"
 	"  -h                Specify password for HTTP authentication.\n"
-    "  -a                Optional path segment to be added to the URI.\n"
+        "  -a                Optional path segment to be added to the URI.\n"
 	"  --srp                       Enable TLS-SRP cipher suites.  Use with --srp-user and --srp-password options.\n"
 	"  --srp-user     <string>     Specify the SRP user name.\n"
 	"  --srp-password <string>     Specify the SRP password.\n"
@@ -227,7 +227,7 @@ int main (int argc, char **argv)
     est_http_pwd[0] = 0x0;
     est_path_segment[0] = 0x0;
 
-    while ((c = getopt_long(argc, argv, "s:p:u:h:", long_options, &option_index)) != -1) {
+    while ((c = getopt_long(argc, argv, "s:p:u:h:a:", long_options, &option_index)) != -1) {
         switch (c) {
             case 0:
 		if (!strncmp(long_options[option_index].name,"srp", strlen("srp"))) {
